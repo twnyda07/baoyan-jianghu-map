@@ -116,6 +116,34 @@ svg.mini{display:block;width:100%;height:auto;background:#e6eef0;
 .c-route i.k-abide{color:var(--ink);font-weight:600}
 .c-route u{text-decoration:none;color:var(--line);margin:0 5px}
 
+/* ---- 肖像與寺院照片 ---- */
+.c-pics{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 11px}
+.pic{margin:0;width:112px}
+.card.open .pic{width:150px}
+.pic a{display:block;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#f1ece2}
+.pic a:hover{border-color:var(--hc)}
+.pic img{display:block;width:100%;height:84px;object-fit:cover}
+.card.open .pic img{height:112px}
+.pic.por img{object-position:center 22%}
+.pic figcaption{font-size:10.5px;color:var(--ink3);line-height:1.45;margin-top:3px}
+.pic figcaption em{display:block;font-style:normal;font-size:9.5px;color:#aaa297}
+
+/* ---- 圖片出處 ---- */
+#credits{max-width:1180px;margin:0 auto;padding:22px 22px 0}
+#credits h3{font-size:13px;letter-spacing:.1em;color:var(--ink2);margin-bottom:7px;
+  border-bottom:1px solid var(--line2);padding-bottom:5px}
+#credits h3 span{color:var(--ink3);font-size:11.5px;font-weight:400}
+#credits p{font-size:11.5px;color:var(--ink3);margin:0 0 9px;line-height:1.7}
+#credits p.warn{background:#fdf6e8;border-left:3px solid var(--gold);padding:9px 12px;
+  color:var(--ink2);border-radius:0 5px 5px 0}
+#credits p.warn b{color:var(--ink)}
+#credits a{color:var(--ink2)}
+#credits ul{list-style:none;padding:0;margin:0;columns:2;column-gap:26px;font-size:11.5px}
+#credits li{break-inside:avoid;margin-bottom:3px;color:var(--ink3);line-height:1.6}
+#credits li span{margin-left:6px}
+#credits li em{font-style:normal;margin-left:6px;color:#aaa297}
+@media (max-width:760px){#credits ul{columns:1}}
+
 .c-sec{font-size:12px;letter-spacing:.12em;color:var(--ink3);
   border-bottom:1px solid var(--line2);padding-bottom:4px;margin:14px 0 8px}
 .c-sec b{color:var(--ink2)}
@@ -207,6 +235,8 @@ footer b{color:var(--ink2)}
 </section>
 
 <main id="list"></main>
+
+<section id="credits"></section>
 
 <footer>
   <b>資料來源</b>　行腳序列、籍貫、師承逐條校自 CBETA 原始 XML：《五燈會元》X80n1565、《景德傳燈錄》T51n2076、《指月錄》X83n1578、《六祖大師法寶壇經》T48n2008、《鎮州臨濟慧照禪師語錄》T47n1985、《筠州洞山悟本禪師語錄》T47n1986A、《雲門匡真禪師廣錄》T47n1988、《龐居士語錄》X69n1336。公案原文節錄自本寺《108 則禪宗公案彙編》（另含《碧巖錄》T48n2003、《無門關》T48n2005）。輪廓底圖取自 geojson-map-china 開源資料。<br>
@@ -1722,6 +1752,73 @@ const CHINA_GEO = {"type": "FeatureCollection",
 </script>
 <script>
 /* ===========================================================
+   祖師肖像與寺院照片
+   全部取自 Wikimedia Commons，僅收公有領域與 CC 授權者。
+   由 build-images.pl 自動生成，不要手改。
+     f 檔名　p Commons 說明頁　l 授權　a 作者　t 查詢名稱
+   =========================================================== */
+const IMAGES = {
+  master: {
+    baizhang:{f:"m_baizhang.jpg",p:"https://commons.wikimedia.org/wiki/File:Baizhang_huaihai.jpg",l:"Public domain",a:"Unknown author",t:"百丈懷海"},
+    budai:{f:"m_budai.jpg",p:"https://commons.wikimedia.org/wiki/File:Budai.jpg",l:"CC BY-SA 3.0",a:"Milei.vencel, Hungary",t:"布袋和尚"},
+    caoshan:{f:"m_caoshan.jpg",p:"https://commons.wikimedia.org/wiki/File:Caoshan_Benji-Fozu_zhengzong_daoying39.jpg",l:"Public domain",a:"Artist unknown (Shouyi (守一), Kongcheng (空成) authors)",t:"曹山本寂"},
+    damo:{f:"m_damo.jpg",p:"https://commons.wikimedia.org/wiki/File:BodhidharmaYoshitoshi1887.jpg",l:"Public domain",a:"Yoshitoshi",t:"菩提達摩"},
+    danxia:{f:"m_danxia.jpg",p:"https://commons.wikimedia.org/wiki/File:Tan_hszia_Tien_zsan739-824.jpg",l:"Public domain",a:"Unknown author",t:"丹霞天然"},
+    daowu_th:{f:"m_daowu_th.jpg",p:"https://commons.wikimedia.org/wiki/File:Tianhuang_daowu.jpg",l:"CC BY-SA 4.0",a:"Unknown author",t:"天皇道悟"},
+    dazhu:{f:"m_dazhu.jpg",p:"https://commons.wikimedia.org/wiki/File:Dazhu_Huihai.jpg",l:"Public domain",a:"Unknown author",t:"大珠慧海"},
+    dongshan:{f:"m_dongshan.jpg",p:"https://commons.wikimedia.org/wiki/File:Dongshan_Liangjie_Image_Zen.jpg",l:"Public domain",a:"Artist unknown (Shouyi (守一), Kongcheng (空成) authors)",t:"洞山良价"},
+    farong:{f:"m_farong.jpg",p:"https://commons.wikimedia.org/wiki/File:Farong2.jpg",l:"Public domain",a:"Unknown author",t:"牛頭法融"},
+    fayan_wz:{f:"m_fayan_wz.jpg",p:"https://commons.wikimedia.org/wiki/File:Vu_cu_Fa_jen1024-1194.jpg",l:"Public domain",a:"Unknown author",t:"五祖法演"},
+    fengxue:{f:"m_fengxue.gif",p:"https://commons.wikimedia.org/wiki/File:Chan_Master_FengxueYanzhao.gif",l:"Public domain",a:"Unknown author",t:"風穴延沼"},
+    hongren:{f:"m_hongren.jpg",p:"https://commons.wikimedia.org/wiki/File:Hongren.jpg",l:"Public domain",a:"",t:"五祖弘忍"},
+    hongzhi:{f:"m_hongzhi.jpg",p:"https://commons.wikimedia.org/wiki/File:Tiantong_Hongzhi_Zhengjue_Zen.jpg",l:"Public domain",a:"Unknown author",t:"宏智正覺"},
+    huairang:{f:"m_huairang.jpg",p:"https://commons.wikimedia.org/wiki/File:Nanyue_huairang.jpg",l:"Public domain",a:"Unknown author",t:"南嶽懷讓"},
+    huineng:{f:"m_huineng.jpg",p:"https://commons.wikimedia.org/wiki/File:Huineng.jpg",l:"Public domain",a:"",t:"六祖慧能"},
+    keqin:{f:"m_keqin.jpg",p:"https://commons.wikimedia.org/wiki/File:Yuanwu_keqin_48th_generation.jpg",l:"Public domain",a:"Unknown author",t:"圓悟克勤"},
+    linji:{f:"m_linji.jpg",p:"https://commons.wikimedia.org/wiki/File:RinzaiGigen.jpg",l:"Public domain",a:"曾我蛇足 Soga Jasoku (fl. c. ?)",t:"臨濟義玄"},
+    longtan:{f:"m_longtan.jpg",p:"https://commons.wikimedia.org/wiki/File:Lung_tan_Csung_hszin9w.jpg",l:"Public domain",a:"Unknown author",t:"龍潭崇信"},
+    nanquan:{f:"m_nanquan.jpg",p:"https://commons.wikimedia.org/wiki/File:Shokei_Nansen_zanbyo_1495_RJP_438_detail.jpg",l:"Public domain",a:"Shōkei (fl. 15th/16th century)",t:"南泉普願"},
+    shanzhao:{f:"m_shanzhao.jpg",p:"https://commons.wikimedia.org/wiki/File:Fen_jang_San_csao947-1024.jpg",l:"Public domain",a:"Unknown author",t:"汾陽善昭"},
+    shitou:{f:"m_shitou.jpg",p:"https://commons.wikimedia.org/wiki/File:Shitou_Xiqian.jpg",l:"Public domain",a:"Artist unknown (Shouyi (守一), Kongcheng (空成) authors)",t:"石頭希遷"},
+    xingsi:{f:"m_xingsi.jpg",p:"https://commons.wikimedia.org/wiki/File:Qingyuan_Xingsi.jpg",l:"Public domain",a:"Artist unknown (Shouyi (守一), Kongcheng (空成) authors)",t:"青原行思"},
+    xuanjue:{f:"m_xuanjue.jpg",p:"https://commons.wikimedia.org/wiki/File:Yongjia_Xuanjue_Drawing_Zen.jpeg",l:"Public domain",a:"Unknown author",t:"永嘉玄覺"},
+    xuansha:{f:"m_xuansha.jpg",p:"https://commons.wikimedia.org/wiki/File:Xuansha_Sermon_(Kyoto_National_Museum).jpg",l:"Public domain",a:"Yuan-dynasty artist",t:"玄沙師備"},
+    yangshan:{f:"m_yangshan.jpg",p:"https://commons.wikimedia.org/wiki/File:Jang_san_Huj_csi807-883.jpg",l:"Public domain",a:"Unknown author",t:"仰山慧寂"},
+    yanshou:{f:"m_yanshou.jpg",p:"https://commons.wikimedia.org/wiki/File:Yongming_Yanshou_Image.jpg",l:"Public domain",a:"Unknown author",t:"永明延壽"},
+    yantou:{f:"m_yantou.jpg",p:"https://commons.wikimedia.org/wiki/File:Jen_tou_Csuan_huo828-887.jpg",l:"Public domain",a:"Unknown author",t:"巖頭全奯"},
+    yaoshan:{f:"m_yaoshan.jpg",p:"https://commons.wikimedia.org/wiki/File:Yaoshan_Weiyan_Image.jpg",l:"Public domain",a:"Artist unknown (Shouyi (守一), Kongcheng (空成) authors)",t:"藥山惟儼"},
+    yunmen:{f:"m_yunmen.jpg",p:"https://commons.wikimedia.org/wiki/File:Yunmen-Fozu_zhengzong_daoying40.jpg",l:"Public domain",a:"Artist unknown (Shouyi (守一), Kongcheng (空成) authors)",t:"雲門文偃"},
+    yunyan:{f:"m_yunyan.jpg",p:"https://commons.wikimedia.org/wiki/File:Yunyan_Tansheng_Image_Zen.jpg",l:"Public domain",a:"Artist unknown (Shouyi (守一), Kongcheng (空成) authors)",t:"雲巖曇晟"},
+    zhaozhou:{f:"m_zhaozhou.jpg",p:"https://commons.wikimedia.org/wiki/File:Zhaozhou_Congshen-Fozu_zhengzong_daoying37.jpg",l:"Public domain",a:"Artist unknown (Shouyi (守一), Kongcheng (空成) authors)",t:"趙州從諗"},
+    zonggao:{f:"m_zonggao.jpg",p:"https://commons.wikimedia.org/wiki/File:Dahui_49th_generation.jpg",l:"Public domain",a:"Unknown author",t:"大慧宗杲"}
+  },
+  place: {
+    bianjing:{f:"t_bianjing.jpg",p:"https://commons.wikimedia.org/wiki/File:20250622_Xiangguo_Temple_07.jpg",l:"CC BY-SA 4.0",a:"Windmemories",t:"大相國寺"},
+    dongshan_hm:{f:"t_dongshan_hm.jpg",p:"https://commons.wikimedia.org/wiki/File:A_corner_of_Wuzu_Temple-2.jpg",l:"CC BY-SA 4.0",a:"Rowingbohe",t:"五祖寺"},
+    fuqing:{f:"t_fuqing.jpg",p:"https://commons.wikimedia.org/wiki/File:260117_Manpuku-ji_Uji_Kyoto_pref_Japan01s3.jpg",l:"CC BY-SA 4.0",a:"663highland",t:"萬福寺"},
+    guangzhou:{f:"t_guangzhou.jpg",p:"https://commons.wikimedia.org/wiki/File:Guangxiaosi.jpg",l:"CC BY 3.0",a:"David Chen User:Iamdavidtheking 12:44, 11 April (UTC)",t:"光孝寺"},
+    hongzhou:{f:"t_hongzhou.jpg",p:"https://commons.wikimedia.org/wiki/File:Nanchang_Youmin_Si_20120712-01.jpg",l:"CC BY-SA 4.0",a:"Zhangzhugang",t:"佑民寺"},
+    jinshan:{f:"t_jinshan.jpg",p:"https://commons.wikimedia.org/wiki/File:Golden_Mount3.jpg",l:"CC BY-SA 4.0",a:"Kriengsak Jirasirirojanakorn",t:"金山寺"},
+    luoyang:{f:"t_luoyang.jpg",p:"https://commons.wikimedia.org/wiki/File:27467-Luoyang_(49085730123).jpg",l:"CC BY 2.0",a:"xiquinhosilva",t:"白馬寺"},
+    nanyue:{f:"t_nanyue.jpg",p:"https://commons.wikimedia.org/wiki/File:Hukugonji01.jpg",l:"CC BY-SA 3.0",a:"bittercup",t:"福嚴寺"},
+    qingyuan:{f:"t_qingyuan.jpg",p:"https://commons.wikimedia.org/wiki/File:Jingju_Temple_Station-Name_Wall.jpg",l:"CC BY-SA 4.0",a:"来斤小仓鼠吧",t:"淨居寺"},
+    shaolin:{f:"t_shaolin.jpg",p:"https://commons.wikimedia.org/wiki/File:Shaolinsi.JPG",l:"CC BY-SA 3.0",a:"User:Yaoleilei",t:"少林寺"},
+    shishuang:{f:"t_shishuang.jpg",p:"https://commons.wikimedia.org/wiki/File:Shanmen_Hall,_Shishuang_Temple,_20_September_2020D.jpg",l:"CC BY 3.0",a:"Huangdan⁠",t:"石霜寺"},
+    tiantai:{f:"t_tiantai.jpg",p:"https://commons.wikimedia.org/wiki/File:Kokuseiji_02.jpg",l:"CC BY-SA 3.0",a:"Reggaeman",t:"國清寺"},
+    tiantong:{f:"t_tiantong.jpg",p:"https://commons.wikimedia.org/wiki/File:Ningbo_Tiantong_Si_2013.07.28_16-01-08.jpg",l:"CC BY-SA 3.0",a:"Zhangzhugang",t:"天童寺"},
+    weishan:{f:"t_weishan.jpg",p:"https://commons.wikimedia.org/wiki/File:Mi_Yin_Temple_5.jpg",l:"Public domain",a:"Huangdan⁠",t:"密印寺"},
+    wutai:{f:"t_wutai.jpg",p:"https://commons.wikimedia.org/wiki/File:Wutai_2009_431.jpg",l:"CC BY-SA 4.0",a:"G41rn8",t:"五臺山"},
+    wuzushan:{f:"t_wuzushan.jpg",p:"https://commons.wikimedia.org/wiki/File:A_corner_of_Wuzu_Temple-2.jpg",l:"CC BY-SA 4.0",a:"Rowingbohe",t:"五祖寺"},
+    xiangyan:{f:"t_xiangyan.jpg",p:"https://commons.wikimedia.org/wiki/File:Hnxcxys_(3).jpg",l:"CC BY-SA 3.0",a:"襄樊一夜",t:"香嚴寺"},
+    xuedou:{f:"t_xuedou.jpg",p:"https://commons.wikimedia.org/wiki/File:Xuedou.jpeg",l:"CC BY-SA 4.0",a:"Szalai.laci",t:"雪竇寺"},
+    yunmen:{f:"t_yunmen.jpg",p:"https://commons.wikimedia.org/wiki/File:Unmun-Tempel-Korea-Layout.jpg",l:"CC0",a:"WolfgangMichel",t:"雲門寺"},
+    zhenzhou:{f:"t_zhenzhou.jpg",p:"https://commons.wikimedia.org/wiki/File:Lin_Ji_Si.JPG",l:"CC BY 3.0",a:"David Chen (Iamdavidtheking 03:13, 18 September (UTC))",t:"臨濟寺"}
+  }
+};
+
+</script>
+<script>
+/* ===========================================================
    禪宗跑江湖地圖 · 禪師圖傳
    每位一張自己的行腳小圖 ＋ 生平 ＋ 公案
    （把 70 條路線拆開來看，而不是疊在同一張圖上）
@@ -1838,6 +1935,48 @@ function miniMap(m, big) {
   return s + `</svg>`;
 }
 
+/* ---------- 肖像與寺院照片 ----------
+   圖全部取自 Wikimedia Commons，只用公有領域與 CC 授權者。
+   CC 要求標示來源與作者，所以每張圖都連回 Commons 說明頁，
+   頁尾另有完整的圖片出處清單。                                  */
+const IMG = (typeof IMAGES !== "undefined") ? IMAGES : { master:{}, place:{} };
+const USED = {};                                  // 收集本頁用到的圖，供頁尾出處表
+
+function figure(rec, caption, cls) {
+  if (!rec) return "";
+  USED[rec.f] = rec;
+  const lic = rec.l ? esc(rec.l) : "";
+  const who = rec.a ? esc(rec.a) : "";
+  const tip = [caption, who, lic].filter(Boolean).join("　·　");
+  return `<figure class="pic ${cls}">
+    <a href="${esc(rec.p)}" target="_blank" rel="noopener noreferrer" title="${esc(tip)}　（開啟 Wikimedia Commons 原頁）">
+      <img src="img/${esc(rec.f)}" alt="${esc(caption)}" loading="lazy"
+           onerror="this.closest('figure').style.display='none'">
+    </a>
+    <figcaption>${esc(caption)}<em>${lic}</em></figcaption>
+  </figure>`;
+}
+
+/* 一位祖師要配哪些圖：先肖像，再他住錫過的寺院 */
+function pics(m, max) {
+  let out = "", n = 0;
+  const por = IMG.master[m.id];
+  if (por) { out += figure(por, m.name + "　像", "por"); n++; }
+
+  const seen = {};
+  for (const node of m.path) {
+    if (n >= max) break;
+    if (node.k !== "abide" || seen[node.p]) continue;
+    const rec = IMG.place[node.p];
+    if (!rec) continue;
+    seen[node.p] = 1;
+    const P = PLACES[node.p] || [];
+    out += figure(rec, (P[2] || "").replace(/（.*?）/g, ""), "tmp");
+    n++;
+  }
+  return out ? `<div class="c-pics">${out}</div>` : "";
+}
+
 /* ---------- 一張卡片 ---------- */
 function card(m) {
   const h = HOUSES[m.house], st = stats(m);
@@ -1879,6 +2018,7 @@ function card(m) {
       return `<i class="k-${n.k}">${esc((P[2]||"").replace(/（.*?）/g,""))}</i>`;
     }).join('<u>›</u>');
     s += `<div class="c-route">${line}</div>`;
+    s += pics(m, 3);
   } else {
     s += `<div class="c-sec">行腳</div><ol class="c-path">`;
     m.path.forEach(n => {
@@ -1890,6 +2030,7 @@ function card(m) {
         <span class="t">${esc(n.t)}</span></li>`;
     });
     s += `</ol>`;
+    s += pics(m, 6);
   }
 
   // 公案
@@ -2012,6 +2153,7 @@ function render() {
     html += card(m);
   });
   box.innerHTML = html;
+  renderCredits();
   box.querySelectorAll("[data-png]").forEach(b => { b.onclick = () => exportPNG(b.dataset.png); });
   box.querySelectorAll(".c-toggle").forEach(b => {
     b.onclick = () => {
@@ -2022,6 +2164,28 @@ function render() {
       if (t) t.scrollIntoView({ block: "nearest", behavior: "instant" });
     };
   });
+}
+
+/* 圖片出處：CC 授權要求標示作者與授權，這一區是履行該義務 */
+function renderCredits() {
+  const box = document.querySelector("#credits");
+  if (!box) return;
+  const ks = Object.keys(USED);
+  if (!ks.length) { box.innerHTML = ""; return; }
+  let h = `<h3>圖片出處　<span>${ks.length} 張</span></h3>
+    <p class="warn"><b>祖師像都不是寫真。</b>唐宋禪師無當代肖像存世，這些多半出自清代《佛祖正宗道影》一類的傳法圖像集，
+    或日本禪林的頂相，是後人依想像與圖像慣例所繪，<b>不能當作長相的根據</b>。
+    寺院照片是今日的建築，唐宋原構幾乎無存，多為後世重建。</p>
+    <p>圖全部取自 <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>，
+    僅採公有領域與創用 CC 授權者。依授權條款標示作者與授權如下，點圖可開啟原始說明頁。
+    <b>行腳路線圖</b>為本寺自製，不在此列。</p><ul>`;
+  ks.sort((a, b) => USED[a].t.localeCompare(USED[b].t, "zh-Hant"));
+  ks.forEach(f => {
+    const r = USED[f];
+    h += `<li><a href="${esc(r.p)}" target="_blank" rel="noopener noreferrer">${esc(r.t)}</a>
+      <span>${esc(r.a || "作者未標示")}</span><em>${esc(r.l)}</em></li>`;
+  });
+  box.innerHTML = h + `</ul>`;
 }
 
 function legend() {
