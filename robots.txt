@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://twnyda07.github.io/baoyan-jianghu-map/sitemap.xml
